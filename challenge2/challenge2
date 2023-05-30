@@ -1,0 +1,8 @@
+1. Open link - https://docs.microsoft.com/en-us/rest/api/compute/virtual-machines/get
+2. Login to the subscirption and create a VM
+3. Issue the follwoing get request
+GET https://management.azure.com/subscriptions/[subscriptionId]/resourceGroups/sudhaEX/providers/Microsoft.Compute/virtualMachines/challengevm?api-version
+Authorization: Bearer (provide the key)
+
+
+## It's a incomplete one
