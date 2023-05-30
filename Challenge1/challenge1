@@ -1,0 +1,62 @@
+1. Create two projects one for development and the other for Production in gcp. Execute the steps in cloudshell.
+
+# to create project
+gcloud projects create  "project_id"  --name="project_name"
+
+
+# to check projects list
+gcloud projects list
+
+After this, assign a billing account for that project either we can use the existing one or can create a new one.
+
+2. Create a vpc in dev project in any region.
+
+gcloud compute networks create network-name --bgp-routing-mode=global --subnet-mode=custom
+
+
+
+3. Create another vpc in test project in any region other than of development project.
+
+gcloud compute networks create network-name --bgp-routing-mode=global --subnet-mode=custom
+
+4. Connect both the vpc using VPC Network Peering.
+
+gcloud compute networks peerings create PEERING_NAME \
+    --network=NETWORK \
+    --peer-project=PEER_PROJECT_ID \
+    --peer-network=PEER_NETWORK_NAME \
+    [--stack-type=STACK_TYPE] \
+    [--import-custom-routes] \
+    [--export-custom-routes] \
+    [--import-subnet-routes-with-public-ip] \
+    [--export-subnet-routes-with-public-ip]
+
+
+5. Launch a kubernetes cluster in dev project using GKE and deploy wordpress on top of it.
+
+# create cluster
+gcloud container clusters create sample-cluster
+
+# to deploy wordpress
+kubectl create deploy wordpress --image=wordpress
+
+# to expose the pods to public world
+kubectl expose deploy wordpress --port=80 --type=LoadBalancer
+
+6. Create an database using SQL service.
+
+# create database
+
+gcloud sql databases create DATABASE_NAME \
+--instance=INSTANCE_NAME \
+[--charset=CHARSET] \
+[--collation=COLLATION]
+
+
+
+7. Use the above created database for installing wordpress.
+
+a. Edit some configurations for wordpress to access the database.
+b. In connectivity we have to add the ip of wordpress for ingress, but here I have added ip from anywhere. We can also configure to private ip also. At the end of the page press save.
+c. Copy the ip address. This ip address have to be used in setting up wordpress.
+d. Press install at the end.
